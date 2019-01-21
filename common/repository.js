@@ -34,7 +34,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             model = model.find(condition,params);
             populate.forEach((value)=>{
-                model.populate(value);
+                model.populate(value.split(',')[0],value.split(',')[1]);
               }); 
 
               model.exec((err,data)=>{
@@ -48,7 +48,7 @@ module.exports = {
         return new Promise((resolve,reject)=>{
             model = model.findById(id,params);
             populate.forEach((value)=>{
-                model.populate(value);
+                model.populate(value.split(',')[0],value.split(',')[1]);
               }); 
 
               model.exec((err,data)=>{

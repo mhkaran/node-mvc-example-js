@@ -1,6 +1,7 @@
 let user = require('../entity/user.js');
 let designation = require('../entity/designation.js')
 let mongoose = require('mongoose');
+
 module.exports ={
 
     user : (obj)=>{
@@ -22,7 +23,7 @@ module.exports ={
             if (obj.managers !=null || obj.managers != undefined){
 
                 obj.managers.split(',').forEach(function(manager) {
-                    userObj.managers.push(mongoose.Type.ObjectId(manager)) 
+                    userObj.managers.push(mongoose.Types.ObjectId(manager)) 
                   });
             }
             if (userObj.active == undefined || userObj.active == null) delete userObj.active;
@@ -33,6 +34,12 @@ module.exports ={
         })
     },
 
+    blankUser : ()=>{
+        return new Promise((resolve,reject)=>{
+             resolve(user);
+        })
+    },
+    
     designation : (obj)=>{
 
         return new Promise((resolve,reject)=>{
@@ -46,12 +53,6 @@ module.exports ={
 
             resolve(designationObj);
         });
-    },
-
-    blankUser : ()=>{
-        return new Promise((resolve,reject)=>{
-             resolve(user);
-        })
     },
 
     blankDesignation : () =>{

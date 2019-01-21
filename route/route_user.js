@@ -12,7 +12,7 @@ router.get('/list/', async (req, res) =>{
     catch(e)
     {
         statusCode = 500
-        resMsg ='user"s list is not fetched because of following reason : ' + e;
+        resMsg ='user list is not fetched because of following reason : ' + e;
     }
     res.status(statusCode).end(resMsg);
 });

@@ -8,7 +8,7 @@ module.exports ={
     list : async (obj)=>{
         
         try{
-            return await repo.fetch(await mapping.blankUser(),obj.filter,obj.value,[appConst.entity.designation]);
+            return await repo.fetch(await mapping.blankUser(),obj.filter,obj.value,obj.subTable);
         }
         catch(e){
             throw e;

@@ -7,7 +7,7 @@ module.exports ={
     list : async (condition)=>{
         
         try{
-            return await repo.fetch(await mapping.blankDesignation(),obj.filter,obj.value,[]);
+            return await repo.fetch(await mapping.blankDesignation(),obj.filter,obj.value,obj.subtable);
         }
         catch(e){
             throw e;
