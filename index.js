@@ -6,6 +6,8 @@ const user = require('./route/route_user.js')
 const designation =  require('./route/route_designation.js')
 const mongoose = require('mongoose');
 const cors = require('cors');
+const route = require('./route/commonRoute.js');
+const entityObject = require('./middleware/route_entityCreation.js');
 
 //mongoose connection
 mongoose.connect(appConst.mongodb.url,{ useNewUrlParser: true });
@@ -17,9 +19,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 
+app.use(entityObject);
+
 //set route
-app.use('/user', user);
-app.use('/designation', designation);
+//app.use('/user', user);
+//app.use('/designation', designation);
+app.use('/' + appConst.app,route);
 
 //set cors enable for whole site
 app.use(cors());

@@ -30,11 +30,10 @@ module.exports = {
     },
 
     fetch : (model,condition,params,populate)=>{
-
         return new Promise((resolve,reject)=>{
             model = model.find(condition,params);
-            populate.forEach((value)=>{
-                model.populate(value.split(',')[0],value.split(',')[1]);
+            populate.forEach((subTable)=>{
+                model.populate(subTable,params);
               }); 
 
               model.exec((err,data)=>{
@@ -47,8 +46,8 @@ module.exports = {
     fetchById : (model,id,params,populate) => {
         return new Promise((resolve,reject)=>{
             model = model.findById(id,params);
-            populate.forEach((value)=>{
-                model.populate(value.split(',')[0],value.split(',')[1]);
+            populate.forEach((subTable)=>{
+                model.populate(subTable,params);
               }); 
 
               model.exec((err,data)=>{
@@ -62,8 +61,8 @@ module.exports = {
 
         return new Promise((resolve,reject)=>{
             model = model.findOne(condition,params);
-            populate.forEach((value)=>{
-                model.populate(value);
+            populate.forEach((subTable)=>{
+                model.populate(subTable,params);
               }); 
 
             model.exec((err,data)=>{

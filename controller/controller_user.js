@@ -1,5 +1,5 @@
-const mapping = require('../common/mapping.js');
-const repo = require('../common/repository.js');
+const mapping = require('../database/mapping.js');
+const repo = require('../database/repository.js');
 const appConst = require('../common/applicationConstant.js')
 const mongoose = require('mongoose');
 
@@ -8,7 +8,7 @@ module.exports ={
     list : async (obj)=>{
         
         try{
-            return await repo.fetch(await mapping.blankUser(),obj.filter,obj.value,obj.subTable);
+            return await repo.fetch(await mapping.blankUser(),obj.filter,obj.value,[appConst.entity.designation]);
         }
         catch(e){
             throw e;

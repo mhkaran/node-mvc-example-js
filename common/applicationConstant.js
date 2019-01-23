@@ -6,5 +6,6 @@ module.exports = {
     mongodb : {
         url : 'mongodb://localhost:27017/user'
     },
-    port : 3000
+    port : 3000,
+    app : 'survey'
 }

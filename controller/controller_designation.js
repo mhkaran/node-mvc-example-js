@@ -1,13 +1,13 @@
-const mapping = require('../common/mapping.js');
-const repo = require('../common/repository.js');
+const mapping = require('../database/mapping.js');
+const repo = require('../database/repository.js');
 const appConst = require('../common/applicationConstant.js')
 
 module.exports ={
 
-    list : async (condition)=>{
+    list : async (obj)=>{
         
         try{
-            return await repo.fetch(await mapping.blankDesignation(),obj.filter,obj.value,obj.subtable);
+            return await repo.fetch(await mapping.blankDesignation(),obj.filter,obj.value,[]);
         }
         catch(e){
             throw e;
