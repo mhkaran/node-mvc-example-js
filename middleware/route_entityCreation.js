@@ -5,8 +5,10 @@ const appConst = require('../common/applicationConstant.js')
 module.exports = (req,res,next)=>{
          
     try {
-        const controller = req.originalUrl.split('/')[2]
-        const func =  req.originalUrl.split('/')[3]
+        const controller = req.originalUrl.split('/')[2].toLowerCase();
+        const func =  req.originalUrl.split('/')[3].toLowerCase();
+        
+        req.entity = controller;
         
         if (controller == appConst.entity.user)
             req.controller = user

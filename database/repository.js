@@ -19,10 +19,10 @@ module.exports = {
     },
     
     update : (model,condition,updatedValues)=>{
-        
             return new Promise((resolve,reject)=>{
-                model.updateMany(condition, updatedValues, {new: true}, (err,raw)=>{
-                        if (err) reject(err);
+                model.updateMany(condition, updatedValues, (err,raw)=>{
+                    if (raw.nModified==0) reject("no record found for update request")
+                    else if (err) reject(err);
                         else resolve();
 
                 })
@@ -74,8 +74,9 @@ module.exports = {
 
     delete : (model,condition)=>{
         return new Promise((resolve,reject)=>{
-            model.deleteMany(condition,(err)=>{
-                if (err) reject(err)
+            model.deleteMany(condition,(err,data)=>{
+                if (data.n==0) reject("no record found for delete request")
+                else if (err) reject(err)
                 else resolve();
             })
         })
@@ -84,8 +85,9 @@ module.exports = {
     deleteOne : (model,condition)=>{
 
         return new Promise((resolve,reject)=>{
-            model.findOneAndDelete(condition,(err)=>{
-                if (err) reject(err)
+            model.findOneAndDelete(condition,(err,data)=>{
+                if (data.n==0) reject("no record found for delete request")
+                else if (err) reject(err)
                 else resolve();
             })
         })
@@ -95,7 +97,8 @@ module.exports = {
              
         return new Promise((resolve,reject)=>{
             model.findOneAndDelete(id,(err)=>{
-                if(err) reject(err)
+                if (data.n==0) reject("no record found for delete request")
+                else if(err) reject(err)
                 else resolve()
             })
         })

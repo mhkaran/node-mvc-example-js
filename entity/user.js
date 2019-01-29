@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var uniqueValidator = require('mongoose-unique-validator');
+var idValidator = require('mongoose-id-validator');
 
 //Define a schema
 var schema = mongoose.Schema;
@@ -36,4 +37,6 @@ var userSchema = new schema({
 });
 
 userSchema.plugin(uniqueValidator);
+userSchema.path(idValidator);
+0
 module.exports = mongoose.model("user", userSchema, "user");

@@ -1,6 +1,6 @@
 const mapping = require('../database/mapping.js');
 const repo = require('../database/repository.js');
-const appConst = require('../common/applicationConstant.js')
+const staticFunc = require('../common/staticFunc.js')
 
 module.exports ={
 
@@ -27,6 +27,11 @@ module.exports ={
     update : async (obj)=>{
         
         try{
+
+            if (obj.filter==undefined || staticFunc.isJsonEmpty(obj.filter)) throw 'filter should not be empty';
+
+            else if (obj.value==undefined || staticFunc.isJsonEmpty(obj.value)) throw 'value should not be empty';
+
             return await repo.update(await mapping.blankDesignation(),obj.filter,obj.value);
         }
         catch(e){
@@ -34,9 +39,12 @@ module.exports ={
         }
 
     },
-    delete : async (condition)=>{
+    remove : async (condition)=>{
 
         try{
+
+            if (obj.condition==undefined ||staticFunc.isJsonEmpty(condition)) throw 'condition should not be empty';
+
             return await repo.deleteOne(await mapping.blankDesignation(),condition);
         }
         catch(e){
