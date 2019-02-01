@@ -1,106 +1,110 @@
 module.exports = {
 
-    save : (model)=>{
+    save : async (model)=>{
         
-        return new Promise((resolve,reject)=>{
-            model.save(
-                (err)=>{
-                    if (err){
-                        var errMsg = '';
-                        Object.keys(err.errors).forEach((element)=>{
-                            errMsg += err.errors[element].message + '\r\n';
-                        })
-                        reject(errMsg);
-                    }
-                    resolve();
-                }
-            )    
-        })
+        try{
+            return  await model.save()    
+        }
+        catch(e){
+            throw e
+        }
     },
     
-    update : (model,condition,updatedValues)=>{
-            return new Promise((resolve,reject)=>{
-                model.updateMany(condition, updatedValues, (err,raw)=>{
-                    if (raw.nModified==0) reject("no record found for update request")
-                    else if (err) reject(err);
-                        else resolve();
+    saveMany : async (model,data,opts)=>{
 
-                })
-            })
+         try {
+
+         await model.collection.insertMany(data,opts)
+                 
+         }
+         catch(e)
+         { 
+            throw e
+         }    
     },
 
-    fetch : (model,condition,params,populate)=>{
-        return new Promise((resolve,reject)=>{
+    update : async (model,condition,updatedValues,opts)=>{
+
+            try {
+
+                let rtnData = await model.collection.updateMany(condition, updatedValues,opts)
+                if (rtnData.nModified==0) throw "no record found for update request";
+            }
+            catch(e)
+            {
+                throw e;
+            } 
+    },
+
+    fetch : async (model,condition,params,populate)=>{
+       
+        try {    
+            
             model = model.find(condition,params);
             populate.forEach((subTable)=>{
                 model.populate(subTable,params);
               }); 
-
-              model.exec((err,data)=>{
-                if (err) reject(err);
-                else resolve(data);
-            })
-        })
+            
+              return await model.exec();
+            }
+        catch(e){
+            throw e
+        }    
     },
     
-    fetchById : (model,id,params,populate) => {
-        return new Promise((resolve,reject)=>{
+    fetchById : async (model,id,params,populate) => {
+
+        try {    
+            
             model = model.findById(id,params);
             populate.forEach((subTable)=>{
                 model.populate(subTable,params);
               }); 
-
-              model.exec((err,data)=>{
-                if (err) reject(err);
-                else resolve(data);
-            })
-        })
+            
+              return await model.exec();
+            }
+        catch(e){
+            throw e
+        }    
     },
 
-    fetchOne : (model,condition,params,populate)=>{
+    fetchOne : async (model,condition,params,populate)=>{
 
-        return new Promise((resolve,reject)=>{
+        try {    
+            
             model = model.findOne(condition,params);
             populate.forEach((subTable)=>{
                 model.populate(subTable,params);
               }); 
-
-            model.exec((err,data)=>{
-                if (err) reject(err);
-                else resolve(data);
-            })
-        })
+            
+              return await model.exec();
+            }
+        catch(e){
+            throw e
+        }    
     },
 
-    delete : (model,condition)=>{
-        return new Promise((resolve,reject)=>{
-            model.deleteMany(condition,(err,data)=>{
-                if (data.n==0) reject("no record found for delete request")
-                else if (err) reject(err)
-                else resolve();
-            })
-        })
+    delete : async (model,condition)=>{
+
+        try {
+           let data= await model.deleteMany(condition);
+           if (data.n==0) throw "no record found for delete request";
+        }
+        catch(e)
+        {
+            throw e
+        } 
     },
 
-    deleteOne : (model,condition)=>{
+    deleteOne : async (model,condition)=>{
 
-        return new Promise((resolve,reject)=>{
-            model.findOneAndDelete(condition,(err,data)=>{
-                if (data.n==0) reject("no record found for delete request")
-                else if (err) reject(err)
-                else resolve();
-            })
-        })
-    },
-
-    deleteById : (model,id)=>{
-             
-        return new Promise((resolve,reject)=>{
-            model.findOneAndDelete(id,(err)=>{
-                if (data.n==0) reject("no record found for delete request")
-                else if(err) reject(err)
-                else resolve()
-            })
-        })
+        try {
+            let data= await model.deleteMany(condition);
+            if (data.n==0) throw "no record found for delete request";
+         }
+         catch(e)
+         {
+             throw e
+         }  
     }
 }

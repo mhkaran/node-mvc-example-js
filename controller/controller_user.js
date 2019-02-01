@@ -1,7 +1,6 @@
 const mapping = require('../database/mapping.js');
 const repo = require('../database/repository.js');
 const appConst = require('../common/applicationConstant.js')
-const mongoose = require('mongoose');
 const staticFunc = require('../common/staticFunc.js');
 
 module.exports ={
@@ -18,10 +17,30 @@ module.exports ={
     },
     add : async  (obj)=>{
 
+        let userIds = [];
+
         try{
+
+        if (Object.prototype.toString(obj)=='[object Array]'){ 
+
+            for (let i=0; i <obj.length;i++){
+                userIds.push((await repo.save(await mapping.user(obj[i])))._id); 
+                }    
+            }
+       else
             return await repo.save(await mapping.user(obj));
         }
         catch(e){
+
+            if (userIds){
+            userIds.map(async userId => {
+
+                let blankUserObj =  await mapping.blankUser();
+
+                await repo.delete(blankUserObj,{_id:userId});
+
+              });
+            }
             throw e;
         }
 

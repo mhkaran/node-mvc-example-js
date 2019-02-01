@@ -37,6 +37,6 @@ var userSchema = new schema({
 });
 
 userSchema.plugin(uniqueValidator);
-userSchema.path(idValidator);
-0
+userSchema.plugin(idValidator);
+
 module.exports = mongoose.model("user", userSchema, "user");

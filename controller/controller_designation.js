@@ -16,10 +16,27 @@ module.exports ={
     },
     add : async  (obj)=>{
 
+        let designationIds = [];
         try{
-            return await repo.save(await mapping.designation(obj));
+            if (Object.prototype.toString.call(obj) == '[object Array]')
+            {
+                for (let i=0; i <obj.length;i++){
+                    designationIds.push((await repo.save(await mapping.designation(obj[i])))._id); 
+                    }
+            }
+            else return await repo.save(await mapping.designation(obj));
         }
         catch(e){
+
+            if (designationIds){
+            designationIds.map(async designationId => {
+
+                let blankDesignationObj =  await mapping.blankDesignation();
+
+                await repo.delete(blankDesignationObj,{_id:designationId});
+
+              });
+            }
             throw e;
         }
 
