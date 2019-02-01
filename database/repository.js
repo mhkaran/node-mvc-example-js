@@ -99,6 +99,7 @@ module.exports = {
     deleteOne : async (model,condition)=>{
 
         try {
+            console.log('2');
             let data= await model.deleteMany(condition);
             if (data.n==0) throw "no record found for delete request";
          }

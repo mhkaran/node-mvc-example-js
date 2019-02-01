@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var uniqueValidator = require('mongoose-unique-validator');
 var idValidator = require('mongoose-id-validator');
+var refValidator = require('lackey-mongoose-ref-validator');
 
 //Define a schema
 var schema = mongoose.Schema;
@@ -38,5 +39,8 @@ var userSchema = new schema({
 
 userSchema.plugin(uniqueValidator);
 userSchema.plugin(idValidator);
+userSchema.plugin(refValidator,{
+  onDeleteRestrict: ['ref']
+})
 
 module.exports = mongoose.model("user", userSchema, "user");

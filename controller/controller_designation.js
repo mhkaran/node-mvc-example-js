@@ -60,11 +60,14 @@ module.exports ={
 
         try{
 
-            if (obj.condition==undefined ||staticFunc.isJsonEmpty(condition)) throw 'condition should not be empty';
-
+            if (condition==undefined ||staticFunc.isJsonEmpty(condition)) throw 'condition should not be empty';
+            console.log('1');
             return await repo.deleteOne(await mapping.blankDesignation(),condition);
+            console.log('3');
         }
         catch(e){
+            console.log('4');
+            console.log(e);
             throw e;
         }
 
