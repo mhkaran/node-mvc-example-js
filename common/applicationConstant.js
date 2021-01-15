@@ -13,5 +13,5 @@ module.exports = {
         delete : ['remove']
     },
     port : 3000,
-    app : 'tvxsurvey'
+    app : 'survey'
 }
